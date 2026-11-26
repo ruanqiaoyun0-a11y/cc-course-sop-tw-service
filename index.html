@@ -2139,7 +2139,8 @@ let roleplayConversation = [];         // 完整对话记录 [{role:'user'|'pare
 const _HEX2 = '736b2d636b6b6e6476796a3537616d7072306f333237766e34773335766339746a64736d726b373173693961656a756c706937';
 function _rK2(){if(!_HEX2||_HEX2.indexOf('__')===0)return '';let o='';for(let i=0;i<_HEX2.length;i+=2)o+=String.fromCharCode(parseInt(_HEX2.substr(i,2),16));return o;}
 const MIMO_API_URL = 'https://api.xiaomimimo.com/v1/chat/completions';
-const MIMO_MODEL = 'mimo-v2.5-pro';
+const MIMO_MODEL = 'mimo-v2.6-flash';        // 2026-11 更新：v2.5-pro 已下线，对话改用 v2.6-flash
+const MIMO_MODEL_EVAL = 'mimo-v2.6-pro';     // 综合评分用（JSON 输出更稳）
 
 let studySeconds = 0;
 let timerInterval = null;
@@ -2652,7 +2653,7 @@ function checkStudentLimit() {
 // 直连 MiMo（替代原后端代理，避免海外服务器延迟问题）
 // ============================================================
 async function callAI(body) {
-  // mimo-v2.5-pro 需关闭 thinking 才能自定义 temperature；max_tokens 参数名映射为 max_completion_tokens
+  // mimo-v2.6 系列需关闭 thinking 才能自定义 temperature；max_tokens 参数名映射为 max_completion_tokens
   const payload = { ...body, model: body.model || MIMO_MODEL, thinking: { type: 'disabled' }, max_completion_tokens: body.max_completion_tokens || body.max_tokens || 500 };
   const response = await fetch(MIMO_API_URL, {
     method: 'POST',
@@ -2962,7 +2963,7 @@ async function evaluateWithAI() {
 
   const data = await callAI({
     messages: evalMessages,
-    model: MIMO_MODEL,
+    model: MIMO_MODEL_EVAL,
     max_tokens: 500,
     temperature: 0.3
   });

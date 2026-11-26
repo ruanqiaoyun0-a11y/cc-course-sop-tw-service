@@ -1,7 +1,7 @@
 # 终极考核 AI 密钥安全说明（小米 MiMo）
 
 本微课（台湾团队学员服务流程及话术）的「终极考核：首通电话话术 Role-play」中，
-AI 家长角色对话与 AI 综合评分均调用**小米 MiMo**（OpenAI 兼容端点，模型 mimo-v2.5-pro）。
+AI 家长角色对话与 AI 综合评分均调用**小米 MiMo**（OpenAI 兼容端点，对话模型 mimo-v2.6-flash、评分模型 mimo-v2.6-pro）。
 本文说明 MiMo 密钥的安全存储与调用方式。
 
 ## 一、密钥如何加载（三不原则）
@@ -46,7 +46,7 @@ node _build.js --check      # 校验：无占位符残留、hex 可解码、无�
 ## 四、调用要点
 
 - 端点：`https://api.xiaomimimo.com/v1/chat/completions`
-- 模型：`mimo-v2.5-pro`
+- 模型：`mimo-v2.6-flash`（对话）/ `mimo-v2.6-pro`（评分）
 - 认证：`Authorization: Bearer <key>`
 - 评分使用 `response_format: { type: 'json_object' }` 结构化输出（如 MiMo 支持）；
   解析失败时自动降级为基础分，学员体验不中断。
